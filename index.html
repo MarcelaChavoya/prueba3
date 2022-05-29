@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <style>
+        #map {
+            width: 1481px;
+            height: 805px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/AGB_2017_1.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[23.29418617362473,-108.98712924456764],[26.60607323944982,-102.88715294275529]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleSatellite_0');
+        map.getPane('pane_GoogleSatellite_0').style.zIndex = 400;
+        var layer_GoogleSatellite_0 = L.tileLayer('http://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 22
+        });
+        layer_GoogleSatellite_0;
+        map.addLayer(layer_GoogleSatellite_0);
+        function pop_AGB_2017_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PARCELA'] !== null ? autolinker.link(feature.properties['PARCELA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UTMX'] !== null ? autolinker.link(feature.properties['UTMX'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UTMY'] !== null ? autolinker.link(feature.properties['UTMY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['N'] !== null ? autolinker.link(feature.properties['N'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['G'] !== null ? autolinker.link(feature.properties['G'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['VRTA'] !== null ? autolinker.link(feature.properties['VRTA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BIOM'] !== null ? autolinker.link(feature.properties['BIOM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_AGB_2017_1_0() {
+            return {
+                pane: 'pane_AGB_2017_1',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(133,182,111,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_AGB_2017_1');
+        map.getPane('pane_AGB_2017_1').style.zIndex = 401;
+        map.getPane('pane_AGB_2017_1').style['mix-blend-mode'] = 'normal';
+        var layer_AGB_2017_1 = new L.geoJson(json_AGB_2017_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_AGB_2017_1',
+            layerName: 'layer_AGB_2017_1',
+            pane: 'pane_AGB_2017_1',
+            onEachFeature: pop_AGB_2017_1,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_AGB_2017_1_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_AGB_2017_1);
+        map.addLayer(layer_AGB_2017_1);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/AGB_2017_1.png" /> AGB_2017': layer_AGB_2017_1,"Google Satellite": layer_GoogleSatellite_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"BIOM": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_BIOM = document.createElement('div');
+            div_BIOM.id = "div_BIOM";
+            div_BIOM.className= "filterselect";
+            document.getElementById("menu").appendChild(div_BIOM);
+            sel_BIOM = document.createElement('select');
+            sel_BIOM.multiple = true;
+            sel_BIOM.size = 10;
+            sel_BIOM.id = "sel_BIOM";
+            var BIOM_options_str = "<option value='' unselected></option>";
+            sel_BIOM.onchange = function(){filterFunc()};
+            BIOM_options_str  += '<option value="10.27123333">10.27123333</option>';
+            BIOM_options_str  += '<option value="10.31140741">10.31140741</option>';
+            BIOM_options_str  += '<option value="10.50323666">10.50323666</option>';
+            BIOM_options_str  += '<option value="10.51765041">10.51765041</option>';
+            BIOM_options_str  += '<option value="10.58397622">10.58397622</option>';
+            BIOM_options_str  += '<option value="11.23602388">11.23602388</option>';
+            BIOM_options_str  += '<option value="11.41497695">11.41497695</option>';
+            BIOM_options_str  += '<option value="11.50715916">11.50715916</option>';
+            BIOM_options_str  += '<option value="11.60533789">11.60533789</option>';
+            BIOM_options_str  += '<option value="11.68376751">11.68376751</option>';
+            BIOM_options_str  += '<option value="11.73973122">11.73973122</option>';
+            BIOM_options_str  += '<option value="11.87031783">11.87031783</option>';
+            BIOM_options_str  += '<option value="11.9400934">11.9400934</option>';
+            BIOM_options_str  += '<option value="12.17358555">12.17358555</option>';
+            BIOM_options_str  += '<option value="12.19951439">12.19951439</option>';
+            BIOM_options_str  += '<option value="12.39675318">12.39675318</option>';
+            BIOM_options_str  += '<option value="12.84494864">12.84494864</option>';
+            BIOM_options_str  += '<option value="13.09669419">13.09669419</option>';
+            BIOM_options_str  += '<option value="13.13419239">13.13419239</option>';
+            BIOM_options_str  += '<option value="13.27263994">13.27263994</option>';
+            BIOM_options_str  += '<option value="13.29381859">13.29381859</option>';
+            BIOM_options_str  += '<option value="13.40118549">13.40118549</option>';
+            BIOM_options_str  += '<option value="13.51108388">13.51108388</option>';
+            BIOM_options_str  += '<option value="13.57170773">13.57170773</option>';
+            BIOM_options_str  += '<option value="13.58297821">13.58297821</option>';
+            BIOM_options_str  += '<option value="13.70463699">13.70463699</option>';
+            BIOM_options_str  += '<option value="13.70764488">13.70764488</option>';
+            BIOM_options_str  += '<option value="13.78828837">13.78828837</option>';
+            BIOM_options_str  += '<option value="14.08418119">14.08418119</option>';
+            BIOM_options_str  += '<option value="14.11640776">14.11640776</option>';
+            BIOM_options_str  += '<option value="14.27472213">14.27472213</option>';
+            BIOM_options_str  += '<option value="14.32457412">14.32457412</option>';
+            BIOM_options_str  += '<option value="14.88110952">14.88110952</option>';
+            BIOM_options_str  += '<option value="14.97050133">14.97050133</option>';
+            BIOM_options_str  += '<option value="15.03979129">15.03979129</option>';
+            BIOM_options_str  += '<option value="15.11710028">15.11710028</option>';
+            BIOM_options_str  += '<option value="15.33082461">15.33082461</option>';
+            BIOM_options_str  += '<option value="15.70301046">15.70301046</option>';
+            BIOM_options_str  += '<option value="15.75277075">15.75277075</option>';
+            BIOM_options_str  += '<option value="15.8321655">15.8321655</option>';
+            BIOM_options_str  += '<option value="15.83272594">15.83272594</option>';
+            BIOM_options_str  += '<option value="15.87396446">15.87396446</option>';
+            BIOM_options_str  += '<option value="16.07916687">16.07916687</option>';
+            BIOM_options_str  += '<option value="16.18076839">16.18076839</option>';
+            BIOM_options_str  += '<option value="16.23930746">16.23930746</option>';
+            BIOM_options_str  += '<option value="16.47699169">16.47699169</option>';
+            BIOM_options_str  += '<option value="16.54632967">16.54632967</option>';
+            BIOM_options_str  += '<option value="16.67817173">16.67817173</option>';
+            BIOM_options_str  += '<option value="16.73635562">16.73635562</option>';
+            BIOM_options_str  += '<option value="16.75131467">16.75131467</option>';
+            BIOM_options_str  += '<option value="16.91307261">16.91307261</option>';
+            BIOM_options_str  += '<option value="17.03517969">17.03517969</option>';
+            BIOM_options_str  += '<option value="17.308052">17.308052</option>';
+            BIOM_options_str  += '<option value="17.51309697">17.51309697</option>';
+            BIOM_options_str  += '<option value="17.56930537">17.56930537</option>';
+            BIOM_options_str  += '<option value="17.81009503">17.81009503</option>';
+            BIOM_options_str  += '<option value="17.87663379">17.87663379</option>';
+            BIOM_options_str  += '<option value="18.00294646">18.00294646</option>';
+            BIOM_options_str  += '<option value="18.01294505">18.01294505</option>';
+            BIOM_options_str  += '<option value="18.04948037">18.04948037</option>';
+            BIOM_options_str  += '<option value="18.05564023">18.05564023</option>';
+            BIOM_options_str  += '<option value="18.16478976">18.16478976</option>';
+            BIOM_options_str  += '<option value="18.18101827">18.18101827</option>';
+            BIOM_options_str  += '<option value="18.32605724">18.32605724</option>';
+            BIOM_options_str  += '<option value="18.68792679">18.68792679</option>';
+            BIOM_options_str  += '<option value="18.75610816">18.75610816</option>';
+            BIOM_options_str  += '<option value="18.76547013">18.76547013</option>';
+            BIOM_options_str  += '<option value="18.82592211">18.82592211</option>';
+            BIOM_options_str  += '<option value="18.89061905">18.89061905</option>';
+            BIOM_options_str  += '<option value="18.99686738">18.99686738</option>';
+            BIOM_options_str  += '<option value="19.27743016">19.27743016</option>';
+            BIOM_options_str  += '<option value="19.30905863">19.30905863</option>';
+            BIOM_options_str  += '<option value="19.540148">19.540148</option>';
+            BIOM_options_str  += '<option value="19.55149337">19.55149337</option>';
+            BIOM_options_str  += '<option value="19.58346403">19.58346403</option>';
+            BIOM_options_str  += '<option value="19.61937855">19.61937855</option>';
+            BIOM_options_str  += '<option value="19.63925614">19.63925614</option>';
+            BIOM_options_str  += '<option value="19.66129953">19.66129953</option>';
+            BIOM_options_str  += '<option value="19.83675726">19.83675726</option>';
+            BIOM_options_str  += '<option value="2.054123504">2.054123504</option>';
+            BIOM_options_str  += '<option value="20.00673301">20.00673301</option>';
+            BIOM_options_str  += '<option value="20.04283814">20.04283814</option>';
+            BIOM_options_str  += '<option value="20.20035902">20.20035902</option>';
+            BIOM_options_str  += '<option value="20.22444177">20.22444177</option>';
+            BIOM_options_str  += '<option value="20.29260866">20.29260866</option>';
+            BIOM_options_str  += '<option value="20.36008911">20.36008911</option>';
+            BIOM_options_str  += '<option value="20.96687179">20.96687179</option>';
+            BIOM_options_str  += '<option value="20.98633195">20.98633195</option>';
+            BIOM_options_str  += '<option value="21.00310774">21.00310774</option>';
+            BIOM_options_str  += '<option value="21.04124882">21.04124882</option>';
+            BIOM_options_str  += '<option value="21.0434869">21.0434869</option>';
+            BIOM_options_str  += '<option value="21.09844444">21.09844444</option>';
+            BIOM_options_str  += '<option value="21.24785273">21.24785273</option>';
+            BIOM_options_str  += '<option value="21.30895218">21.30895218</option>';
+            BIOM_options_str  += '<option value="21.3530255">21.3530255</option>';
+            BIOM_options_str  += '<option value="21.44101878">21.44101878</option>';
+            BIOM_options_str  += '<option value="21.45711332">21.45711332</option>';
+            BIOM_options_str  += '<option value="21.81441127">21.81441127</option>';
+            BIOM_options_str  += '<option value="21.92578326">21.92578326</option>';
+            BIOM_options_str  += '<option value="22.23930105">22.23930105</option>';
+            BIOM_options_str  += '<option value="22.45993365">22.45993365</option>';
+            BIOM_options_str  += '<option value="22.49752431">22.49752431</option>';
+            BIOM_options_str  += '<option value="22.50671069">22.50671069</option>';
+            BIOM_options_str  += '<option value="22.6493868">22.6493868</option>';
+            BIOM_options_str  += '<option value="22.80891246">22.80891246</option>';
+            BIOM_options_str  += '<option value="22.83700541">22.83700541</option>';
+            BIOM_options_str  += '<option value="22.8902756">22.8902756</option>';
+            BIOM_options_str  += '<option value="22.90205055">22.90205055</option>';
+            BIOM_options_str  += '<option value="22.96785092">22.96785092</option>';
+            BIOM_options_str  += '<option value="23.24635745">23.24635745</option>';
+            BIOM_options_str  += '<option value="23.35420036">23.35420036</option>';
+            BIOM_options_str  += '<option value="23.60600395">23.60600395</option>';
+            BIOM_options_str  += '<option value="23.60666457">23.60666457</option>';
+            BIOM_options_str  += '<option value="23.67175335">23.67175335</option>';
+            BIOM_options_str  += '<option value="23.70158368">23.70158368</option>';
+            BIOM_options_str  += '<option value="23.74139174">23.74139174</option>';
+            BIOM_options_str  += '<option value="24.07493221">24.07493221</option>';
+            BIOM_options_str  += '<option value="24.11970171">24.11970171</option>';
+            BIOM_options_str  += '<option value="24.25496404">24.25496404</option>';
+            BIOM_options_str  += '<option value="24.29923495">24.29923495</option>';
+            BIOM_options_str  += '<option value="24.32020304">24.32020304</option>';
+            BIOM_options_str  += '<option value="24.33953671">24.33953671</option>';
+            BIOM_options_str  += '<option value="24.42903954">24.42903954</option>';
+            BIOM_options_str  += '<option value="24.89149576">24.89149576</option>';
+            BIOM_options_str  += '<option value="25.2985774">25.2985774</option>';
+            BIOM_options_str  += '<option value="25.38900023">25.38900023</option>';
+            BIOM_options_str  += '<option value="25.4681267">25.4681267</option>';
+            BIOM_options_str  += '<option value="25.50375819">25.50375819</option>';
+            BIOM_options_str  += '<option value="25.54815303">25.54815303</option>';
+            BIOM_options_str  += '<option value="25.83032827">25.83032827</option>';
+            BIOM_options_str  += '<option value="25.87634083">25.87634083</option>';
+            BIOM_options_str  += '<option value="25.97514359">25.97514359</option>';
+            BIOM_options_str  += '<option value="26.27092613">26.27092613</option>';
+            BIOM_options_str  += '<option value="26.29107814">26.29107814</option>';
+            BIOM_options_str  += '<option value="26.33644999">26.33644999</option>';
+            BIOM_options_str  += '<option value="26.62348537">26.62348537</option>';
+            BIOM_options_str  += '<option value="26.82592664">26.82592664</option>';
+            BIOM_options_str  += '<option value="26.99750325">26.99750325</option>';
+            BIOM_options_str  += '<option value="27.16210831">27.16210831</option>';
+            BIOM_options_str  += '<option value="27.16384055">27.16384055</option>';
+            BIOM_options_str  += '<option value="27.18106368">27.18106368</option>';
+            BIOM_options_str  += '<option value="27.31431344">27.31431344</option>';
+            BIOM_options_str  += '<option value="27.66446353">27.66446353</option>';
+            BIOM_options_str  += '<option value="27.70549513">27.70549513</option>';
+            BIOM_options_str  += '<option value="27.73522855">27.73522855</option>';
+            BIOM_options_str  += '<option value="27.78037664">27.78037664</option>';
+            BIOM_options_str  += '<option value="27.97356285">27.97356285</option>';
+            BIOM_options_str  += '<option value="28.14722315">28.14722315</option>';
+            BIOM_options_str  += '<option value="28.23338141">28.23338141</option>';
+            BIOM_options_str  += '<option value="28.36086309">28.36086309</option>';
+            BIOM_options_str  += '<option value="28.45154999">28.45154999</option>';
+            BIOM_options_str  += '<option value="28.66394031">28.66394031</option>';
+            BIOM_options_str  += '<option value="28.75069926">28.75069926</option>';
+            BIOM_options_str  += '<option value="28.97147977">28.97147977</option>';
+            BIOM_options_str  += '<option value="29.09877102">29.09877102</option>';
+            BIOM_options_str  += '<option value="29.16188788">29.16188788</option>';
+            BIOM_options_str  += '<option value="29.25367222">29.25367222</option>';
+            BIOM_options_str  += '<option value="29.80863929">29.80863929</option>';
+            BIOM_options_str  += '<option value="29.82230688">29.82230688</option>';
+            BIOM_options_str  += '<option value="29.87759168">29.87759168</option>';
+            BIOM_options_str  += '<option value="29.87932599">29.87932599</option>';
+            BIOM_options_str  += '<option value="30.07040711">30.07040711</option>';
+            BIOM_options_str  += '<option value="30.09361873">30.09361873</option>';
+            BIOM_options_str  += '<option value="30.28565818">30.28565818</option>';
+            BIOM_options_str  += '<option value="30.41291863">30.41291863</option>';
+            BIOM_options_str  += '<option value="30.41740771">30.41740771</option>';
+            BIOM_options_str  += '<option value="30.49825596">30.49825596</option>';
+            BIOM_options_str  += '<option value="30.50447033">30.50447033</option>';
+            BIOM_options_str  += '<option value="30.82063522">30.82063522</option>';
+            BIOM_options_str  += '<option value="30.95383248">30.95383248</option>';
+            BIOM_options_str  += '<option value="31.00565762">31.00565762</option>';
+            BIOM_options_str  += '<option value="31.0530935">31.0530935</option>';
+            BIOM_options_str  += '<option value="31.42105675">31.42105675</option>';
+            BIOM_options_str  += '<option value="31.57063825">31.57063825</option>';
+            BIOM_options_str  += '<option value="31.91419418">31.91419418</option>';
+            BIOM_options_str  += '<option value="32.52449837">32.52449837</option>';
+            BIOM_options_str  += '<option value="32.71330865">32.71330865</option>';
+            BIOM_options_str  += '<option value="32.94800846">32.94800846</option>';
+            BIOM_options_str  += '<option value="33.43205039">33.43205039</option>';
+            BIOM_options_str  += '<option value="33.62005569">33.62005569</option>';
+            BIOM_options_str  += '<option value="34.22458474">34.22458474</option>';
+            BIOM_options_str  += '<option value="34.22677183">34.22677183</option>';
+            BIOM_options_str  += '<option value="34.47685977">34.47685977</option>';
+            BIOM_options_str  += '<option value="34.5078065">34.5078065</option>';
+            BIOM_options_str  += '<option value="34.54217675">34.54217675</option>';
+            BIOM_options_str  += '<option value="34.99580495">34.99580495</option>';
+            BIOM_options_str  += '<option value="35.08045346">35.08045346</option>';
+            BIOM_options_str  += '<option value="35.27740903">35.27740903</option>';
+            BIOM_options_str  += '<option value="35.61013931">35.61013931</option>';
+            BIOM_options_str  += '<option value="35.629869">35.629869</option>';
+            BIOM_options_str  += '<option value="36.19912244">36.19912244</option>';
+            BIOM_options_str  += '<option value="36.66715121">36.66715121</option>';
+            BIOM_options_str  += '<option value="36.86737857">36.86737857</option>';
+            BIOM_options_str  += '<option value="37.22252136">37.22252136</option>';
+            BIOM_options_str  += '<option value="37.47521288">37.47521288</option>';
+            BIOM_options_str  += '<option value="37.89894547">37.89894547</option>';
+            BIOM_options_str  += '<option value="38.02347088">38.02347088</option>';
+            BIOM_options_str  += '<option value="38.27367678">38.27367678</option>';
+            BIOM_options_str  += '<option value="38.49701813">38.49701813</option>';
+            BIOM_options_str  += '<option value="38.57475257">38.57475257</option>';
+            BIOM_options_str  += '<option value="38.69142374">38.69142374</option>';
+            BIOM_options_str  += '<option value="39.01856269">39.01856269</option>';
+            BIOM_options_str  += '<option value="39.25385348">39.25385348</option>';
+            BIOM_options_str  += '<option value="39.32304626">39.32304626</option>';
+            BIOM_options_str  += '<option value="39.64759792">39.64759792</option>';
+            BIOM_options_str  += '<option value="39.82775302">39.82775302</option>';
+            BIOM_options_str  += '<option value="39.84879104">39.84879104</option>';
+            BIOM_options_str  += '<option value="4.174423161">4.174423161</option>';
+            BIOM_options_str  += '<option value="4.794801438">4.794801438</option>';
+            BIOM_options_str  += '<option value="4.80670766">4.80670766</option>';
+            BIOM_options_str  += '<option value="40.06505245">40.06505245</option>';
+            BIOM_options_str  += '<option value="40.09855428">40.09855428</option>';
+            BIOM_options_str  += '<option value="40.60183945">40.60183945</option>';
+            BIOM_options_str  += '<option value="40.61977994">40.61977994</option>';
+            BIOM_options_str  += '<option value="41.13578371">41.13578371</option>';
+            BIOM_options_str  += '<option value="41.21313743">41.21313743</option>';
+            BIOM_options_str  += '<option value="41.2897704">41.2897704</option>';
+            BIOM_options_str  += '<option value="41.39442338">41.39442338</option>';
+            BIOM_options_str  += '<option value="41.39995676">41.39995676</option>';
+            BIOM_options_str  += '<option value="41.43967331">41.43967331</option>';
+            BIOM_options_str  += '<option value="41.5654202">41.5654202</option>';
+            BIOM_options_str  += '<option value="41.62591026">41.62591026</option>';
+            BIOM_options_str  += '<option value="42.01362761">42.01362761</option>';
+            BIOM_options_str  += '<option value="42.05268954">42.05268954</option>';
+            BIOM_options_str  += '<option value="42.34784261">42.34784261</option>';
+            BIOM_options_str  += '<option value="42.58918314">42.58918314</option>';
+            BIOM_options_str  += '<option value="42.87099247">42.87099247</option>';
+            BIOM_options_str  += '<option value="43.01390119">43.01390119</option>';
+            BIOM_options_str  += '<option value="43.80300284">43.80300284</option>';
+            BIOM_options_str  += '<option value="43.97224584">43.97224584</option>';
+            BIOM_options_str  += '<option value="44.48333593">44.48333593</option>';
+            BIOM_options_str  += '<option value="44.65949841">44.65949841</option>';
+            BIOM_options_str  += '<option value="44.9649803">44.9649803</option>';
+            BIOM_options_str  += '<option value="45.06638603">45.06638603</option>';
+            BIOM_options_str  += '<option value="45.17139467">45.17139467</option>';
+            BIOM_options_str  += '<option value="45.2140795">45.2140795</option>';
+            BIOM_options_str  += '<option value="45.56824409">45.56824409</option>';
+            BIOM_options_str  += '<option value="45.91848653">45.91848653</option>';
+            BIOM_options_str  += '<option value="45.99762173">45.99762173</option>';
+            BIOM_options_str  += '<option value="46.01252738">46.01252738</option>';
+            BIOM_options_str  += '<option value="46.25667276">46.25667276</option>';
+            BIOM_options_str  += '<option value="46.38179278">46.38179278</option>';
+            BIOM_options_str  += '<option value="46.39803477">46.39803477</option>';
+            BIOM_options_str  += '<option value="46.5163584">46.5163584</option>';
+            BIOM_options_str  += '<option value="46.631409">46.631409</option>';
+            BIOM_options_str  += '<option value="47.03982723">47.03982723</option>';
+            BIOM_options_str  += '<option value="47.619068">47.619068</option>';
+            BIOM_options_str  += '<option value="47.98323448">47.98323448</option>';
+            BIOM_options_str  += '<option value="48.06241464">48.06241464</option>';
+            BIOM_options_str  += '<option value="48.65106085">48.65106085</option>';
+            BIOM_options_str  += '<option value="49.51407036">49.51407036</option>';
+            BIOM_options_str  += '<option value="49.95681348">49.95681348</option>';
+            BIOM_options_str  += '<option value="5.548037156">5.548037156</option>';
+            BIOM_options_str  += '<option value="5.976024474">5.976024474</option>';
+            BIOM_options_str  += '<option value="50.00447038">50.00447038</option>';
+            BIOM_options_str  += '<option value="50.23631531">50.23631531</option>';
+            BIOM_options_str  += '<option value="51.22331982">51.22331982</option>';
+            BIOM_options_str  += '<option value="52.2146752">52.2146752</option>';
+            BIOM_options_str  += '<option value="52.3865372">52.3865372</option>';
+            BIOM_options_str  += '<option value="52.49070579">52.49070579</option>';
+            BIOM_options_str  += '<option value="52.53712722">52.53712722</option>';
+            BIOM_options_str  += '<option value="53.1262166">53.1262166</option>';
+            BIOM_options_str  += '<option value="53.25452928">53.25452928</option>';
+            BIOM_options_str  += '<option value="54.8505942">54.8505942</option>';
+            BIOM_options_str  += '<option value="55.52193568">55.52193568</option>';
+            BIOM_options_str  += '<option value="56.3237739">56.3237739</option>';
+            BIOM_options_str  += '<option value="56.4483414">56.4483414</option>';
+            BIOM_options_str  += '<option value="56.80751">56.80751</option>';
+            BIOM_options_str  += '<option value="57.38433591">57.38433591</option>';
+            BIOM_options_str  += '<option value="57.63684503">57.63684503</option>';
+            BIOM_options_str  += '<option value="58.90802859">58.90802859</option>';
+            BIOM_options_str  += '<option value="59.46528164">59.46528164</option>';
+            BIOM_options_str  += '<option value="59.93803769">59.93803769</option>';
+            BIOM_options_str  += '<option value="6.1824203">6.1824203</option>';
+            BIOM_options_str  += '<option value="6.239061223">6.239061223</option>';
+            BIOM_options_str  += '<option value="6.865138722">6.865138722</option>';
+            BIOM_options_str  += '<option value="60.02827168">60.02827168</option>';
+            BIOM_options_str  += '<option value="61.56116253">61.56116253</option>';
+            BIOM_options_str  += '<option value="61.7177066">61.7177066</option>';
+            BIOM_options_str  += '<option value="61.99508722">61.99508722</option>';
+            BIOM_options_str  += '<option value="63.3598814">63.3598814</option>';
+            BIOM_options_str  += '<option value="63.47646445">63.47646445</option>';
+            BIOM_options_str  += '<option value="65.17707508">65.17707508</option>';
+            BIOM_options_str  += '<option value="66.02258818">66.02258818</option>';
+            BIOM_options_str  += '<option value="67.97864967">67.97864967</option>';
+            BIOM_options_str  += '<option value="68.27890619">68.27890619</option>';
+            BIOM_options_str  += '<option value="68.46815024">68.46815024</option>';
+            BIOM_options_str  += '<option value="69.3488203">69.3488203</option>';
+            BIOM_options_str  += '<option value="69.64354008">69.64354008</option>';
+            BIOM_options_str  += '<option value="69.64405503">69.64405503</option>';
+            BIOM_options_str  += '<option value="7.035946133">7.035946133</option>';
+            BIOM_options_str  += '<option value="7.16227669">7.16227669</option>';
+            BIOM_options_str  += '<option value="7.439455675">7.439455675</option>';
+            BIOM_options_str  += '<option value="7.502649318">7.502649318</option>';
+            BIOM_options_str  += '<option value="71.78899698">71.78899698</option>';
+            BIOM_options_str  += '<option value="71.99945394">71.99945394</option>';
+            BIOM_options_str  += '<option value="73.35471707">73.35471707</option>';
+            BIOM_options_str  += '<option value="73.65804927">73.65804927</option>';
+            BIOM_options_str  += '<option value="73.86234822">73.86234822</option>';
+            BIOM_options_str  += '<option value="74.02960756">74.02960756</option>';
+            BIOM_options_str  += '<option value="75.33284905">75.33284905</option>';
+            BIOM_options_str  += '<option value="75.65876833">75.65876833</option>';
+            BIOM_options_str  += '<option value="8.092055242">8.092055242</option>';
+            BIOM_options_str  += '<option value="8.590769371">8.590769371</option>';
+            BIOM_options_str  += '<option value="83.25042633">83.25042633</option>';
+            BIOM_options_str  += '<option value="86.81370832">86.81370832</option>';
+            BIOM_options_str  += '<option value="87.84890297">87.84890297</option>';
+            BIOM_options_str  += '<option value="9.246447327">9.246447327</option>';
+            BIOM_options_str  += '<option value="9.27275492">9.27275492</option>';
+            BIOM_options_str  += '<option value="9.280718423">9.280718423</option>';
+            BIOM_options_str  += '<option value="9.384440133">9.384440133</option>';
+            BIOM_options_str  += '<option value="9.432960611">9.432960611</option>';
+            BIOM_options_str  += '<option value="9.470136109">9.470136109</option>';
+            BIOM_options_str  += '<option value="9.592978783">9.592978783</option>';
+            BIOM_options_str  += '<option value="9.804804144">9.804804144</option>';
+            BIOM_options_str  += '<option value="90.12010159">90.12010159</option>';
+            BIOM_options_str  += '<option value="92.33642549">92.33642549</option>';
+            sel_BIOM.innerHTML = BIOM_options_str;
+            div_BIOM.appendChild(sel_BIOM);
+            var lab_BIOM = document.createElement('div');
+            lab_BIOM.innerHTML = 'BIOM';
+            lab_BIOM.className = 'filterlabel';
+            div_BIOM.appendChild(lab_BIOM);
+            var reset_BIOM = document.createElement('div');
+            reset_BIOM.innerHTML = 'clear filter';
+            reset_BIOM.className = 'filterlabel';
+            reset_BIOM.onclick = function() {
+                var options = document.getElementById("sel_BIOM").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_BIOM.appendChild(reset_BIOM);
+        </script>
+    </body>
+</html>
